@@ -37,11 +37,18 @@ import retrofit2.Response
 class OverviewViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the status of the most recent request
-    private val _response = MutableLiveData<String>()
+    private val _status = MutableLiveData<String>()
 
     // The external immutable LiveData for the request status String
     val response: LiveData<String>
-        get() = _response
+        get() = _status
+
+    //add the LiveData MarsProperty property with an internal Mutable and an external LiveData
+    private val _property = MutableLiveData<MarsProperty>()
+
+    val property:LiveData<MarsProperty>
+    get() = _property
+
 
     //Create a coroutine job and a coroutineScope using the Main Dispatcher
     private var viewModelJob = Job()
@@ -69,10 +76,13 @@ class OverviewViewModel : ViewModel() {
 
             try {
                 var listResult = getPropertiesDeferred.await()
-                _response.value = "success: ${listResult.size} Mars properies retrieve"
+                if(listResult.size >0){
+                    //return single data
+                    _property.value = listResult[0]
+                }
 
             }catch (t:Throwable){
-                _response.value = "Failure: " + t.message
+                _status.value = "Failure: " + t.message
 
             }
         }
