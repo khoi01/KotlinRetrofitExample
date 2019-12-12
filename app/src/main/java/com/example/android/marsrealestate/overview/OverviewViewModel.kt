@@ -22,6 +22,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.marsrealestate.network.MarsAPI
 import com.example.android.marsrealestate.network.MarsProperty
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +43,12 @@ class OverviewViewModel : ViewModel() {
     val response: LiveData<String>
         get() = _response
 
+    //Create a coroutine job and a coroutineScope using the Main Dispatcher
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob+ Dispatchers.Main)
+
+
+
     /**
      * Call getMarsRealEstateProperties() on init so we can display status immediately.
      */
@@ -49,16 +60,29 @@ class OverviewViewModel : ViewModel() {
      * Sets the value of the status LiveData to the Mars API status.
      */
     private fun getMarsRealEstateProperties() {
-        //call the MarsAPI to enqueue the retrofit request,implementing the callbacks
-        MarsAPI.retrofitService.getProperties().enqueue( object: Callback<List<MarsProperty>> {
-            override fun onFailure(call: Call<List<MarsProperty>>, t: Throwable) {
-                _response.value = "Failure: " + t.message
-            }
 
-            override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
-                _response.value = "success: ${response.body()?.size} Mars properies retrieve"
+        //call coroutinescope.launch and place the rest of the code in it
+        coroutineScope.launch {
+
+            //call the MarsAPI to get data
+            var getPropertiesDeferred = MarsAPI.retrofitService.getProperties()
+
+            try {
+                var listResult = getPropertiesDeferred.await()
+                _response.value = "success: ${listResult.size} Mars properies retrieve"
+
+            }catch (t:Throwable){
+                _response.value = "Failure: " + t.message
+
             }
-        })
+        }
+
         //_response.value = "Set the Mars API Response here!"
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        //cancel job when viewmodel is distroyed
+        viewModelJob.cancel()
     }
 }
