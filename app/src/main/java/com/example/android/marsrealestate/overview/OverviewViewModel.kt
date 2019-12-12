@@ -46,7 +46,7 @@ class OverviewViewModel : ViewModel() {
     //add the LiveData MarsProperty property with an internal Mutable and an external LiveData
     private val _properties = MutableLiveData<List<MarsProperty>>()
 
-    val property:LiveData<List<MarsProperty>>
+    val properties:LiveData<List<MarsProperty>>
     get() = _properties
 
 
@@ -78,7 +78,7 @@ class OverviewViewModel : ViewModel() {
                 var listResult = getPropertiesDeferred.await()
                 if(listResult.size >0){
                     //return single data
-                    _property.value = listResult[0]
+                    _properties.value = listResult
                 }
 
             }catch (t:Throwable){

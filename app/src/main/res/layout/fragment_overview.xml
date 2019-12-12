@@ -44,7 +44,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:itemCount="16"
+            tools:itemCount="16"
+            android:clipToPadding="false"
+            app:listData="@{viewModel.properties}"
             tools:listitem="@layout/grid_view_item"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

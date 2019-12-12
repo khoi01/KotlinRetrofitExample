@@ -64,24 +64,24 @@ dependencies {
     // Core with Ktx
     implementation "androidx.core:core-ktx:$version_core"
 
-    //moshi - convert from json to kotlin object
+    // Moshi
     implementation "com.squareup.moshi:moshi:$version_moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
 
-    //retrofit2
-    implementation "com.squareup.retrofit2:retrofit: $version_retrofit"
-    //implementation "com.squareup.retrofit2:converter-scalars:$version_retrofit"
+    // Retrofit with Moshi Converter
+    implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
 
-    //coroutines
+    // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
+
+    // Retrofit Coroutines Support
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$version_retrofit_coroutines_adapter"
 
-    //glide
+    // Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
 
-    //recycler view
+    // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
-
 }
