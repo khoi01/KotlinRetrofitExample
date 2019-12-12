@@ -44,10 +44,10 @@ class OverviewViewModel : ViewModel() {
         get() = _status
 
     //add the LiveData MarsProperty property with an internal Mutable and an external LiveData
-    private val _property = MutableLiveData<MarsProperty>()
+    private val _properties = MutableLiveData<List<MarsProperty>>()
 
-    val property:LiveData<MarsProperty>
-    get() = _property
+    val property:LiveData<List<MarsProperty>>
+    get() = _properties
 
 
     //Create a coroutine job and a coroutineScope using the Main Dispatcher

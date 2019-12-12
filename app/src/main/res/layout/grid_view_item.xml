@@ -21,11 +21,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Add the viewModel data variable to this layout -->
+    <!-- Switch from using viewModel to MarsProperty type -->
     <data>
         <variable
-            name="viewModel"
-            type="com.example.android.marsrealestate.overview.OverviewViewModel" />
+            name="property"
+            type="com.example.android.marsrealestate.network.MarsProperty" />
     </data>
     <ImageView
         android:id="@+id/mars_image"
