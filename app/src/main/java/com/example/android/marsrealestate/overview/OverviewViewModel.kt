@@ -31,16 +31,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+//create MarsAPIStatus enum with the LOADING,ERROR and Done states
+enum class MarsAPIStatus{LOADING,ERROR,DONE}
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
  */
 class OverviewViewModel : ViewModel() {
 
     // The internal MutableLiveData String that stores the status of the most recent request
-    private val _status = MutableLiveData<String>()
+    private val _status = MutableLiveData<MarsAPIStatus>()
 
     // The external immutable LiveData for the request status String
-    val response: LiveData<String>
+    val response: LiveData<MarsAPIStatus>
         get() = _status
 
     //add the LiveData MarsProperty property with an internal Mutable and an external LiveData
@@ -71,19 +74,23 @@ class OverviewViewModel : ViewModel() {
         //call coroutinescope.launch and place the rest of the code in it
         coroutineScope.launch {
 
+            //Get the Deferred object for our retrofit request
             //call the MarsAPI to get data
             var getPropertiesDeferred = MarsAPI.retrofitService.getProperties()
 
             try {
+
+                _status.value = MarsAPIStatus.LOADING
+
                 var listResult = getPropertiesDeferred.await()
-                if(listResult.size >0){
-                    //return single data
-                    _properties.value = listResult
-                }
+                _status.value = MarsAPIStatus.DONE
+                _properties.value = listResult
+
 
             }catch (t:Throwable){
-                _status.value = "Failure: " + t.message
-
+                _status.value = MarsAPIStatus.ERROR
+                //to clear recyclerview item
+                _properties.value = ArrayList()
             }
         }
 

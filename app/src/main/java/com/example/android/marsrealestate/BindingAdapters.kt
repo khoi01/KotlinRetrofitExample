@@ -17,6 +17,7 @@
 
 package com.example.android.marsrealestate
 
+import android.view.View
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.android.marsrealestate.network.MarsProperty
+import com.example.android.marsrealestate.overview.MarsAPIStatus
 import com.example.android.marsrealestate.overview.PhotoGridAdapter
 
 //add a binding adapter for the listData attribute that calls submitlist on the RV adapter
@@ -48,3 +50,21 @@ fun bindImage(imgView: ImageView, imgUrl:String?){
                 .into(imgView)
     }
 }
+
+////Add the binding adapter to show the MarsAPI status in the ImageView and show/hide the view
+//@BindingAdapter("marsApiStatus")
+//fun bindStatus(statusImageView: ImageView,status:MarsAPIStatus?){
+//    when(status){
+//        MarsAPIStatus.LOADING ->{
+//            statusImageView.visibility = View.VISIBLE
+//            statusImageView.setImageResource(R.drawable.loading_animation)
+//        }
+//        MarsAPIStatus.ERROR -> {
+//            statusImageView.visibility = View.VISIBLE
+//            statusImageView.setImageResource(R.drawable.ic_connection_error)
+//        }
+//        MarsAPIStatus.DONE ->{
+//            statusImageView.visibility = View.GONE
+//        }
+//    }
+//}
