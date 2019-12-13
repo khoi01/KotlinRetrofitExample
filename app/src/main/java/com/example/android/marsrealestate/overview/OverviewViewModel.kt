@@ -53,6 +53,11 @@ class OverviewViewModel : ViewModel() {
     get() = _properties
 
 
+    //add a _navigationtoSelectedProperty MutableLiveData externalized as LiveData
+    private val _nagivateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val nagivateToSelectedProperty:LiveData<MarsProperty>
+    get() = _nagivateToSelectedProperty
+
     //Create a coroutine job and a coroutineScope using the Main Dispatcher
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob+ Dispatchers.Main)
@@ -95,6 +100,15 @@ class OverviewViewModel : ViewModel() {
         }
 
         //_response.value = "Set the Mars API Response here!"
+    }
+
+    // add displayPropertyDetails and displayPropertyDetailComplete Methods
+    fun displayPropertyDetails(marsProperty: MarsProperty){
+        _nagivateToSelectedProperty.value = marsProperty
+    }
+
+    fun displayPropertyDetailsComplete(){
+        _nagivateToSelectedProperty.value = null
     }
 
     override fun onCleared() {

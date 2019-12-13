@@ -28,7 +28,7 @@ import com.example.android.marsrealestate.network.MarsProperty
 
 ////Create PhotoGridAdapter that extends the recyclerView ListAdapter with DiffCallback
 
-class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
+class PhotoGridAdapter(private val onClickListener: OnClickListener) : ListAdapter<MarsProperty, PhotoGridAdapter.MarsPropertyViewHolder>(DiffCallback) {
     class MarsPropertyViewHolder(private var binding: GridViewItemBinding):RecyclerView.ViewHolder(binding.root) {
 
         fun bind(marsProperty: MarsProperty){
@@ -54,6 +54,16 @@ class PhotoGridAdapter : ListAdapter<MarsProperty, PhotoGridAdapter.MarsProperty
 
     override fun onBindViewHolder(holder: PhotoGridAdapter.MarsPropertyViewHolder, position: Int) {
         var marsProperty = getItem(position)
+
+        //call the onclick function from onClickListener in a lambda from setOnClickListener
+        holder.itemView.setOnClickListener{
+            onClickListener.onClick(marsProperty)
+        }
         holder.bind(marsProperty)
+    }
+
+    //create an onClickListener class with a lambda in its constructor that initialize
+    class OnClickListener(val clickListener:(marsProperty:MarsProperty)-> Unit){
+        fun onClick(marsProperty: MarsProperty) = clickListener(marsProperty)
     }
 }

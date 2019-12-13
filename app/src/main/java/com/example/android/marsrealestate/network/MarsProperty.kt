@@ -17,13 +17,20 @@
 
 package com.example.android.marsrealestate.network
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 //Convert this class to a kotlin data class that contains properties that match JSON
 //Use @Json to remap the img_src field to imgSrcUrl in the data class
+
+@Parcelize
 data class MarsProperty(
         var id:String,
         @Json(name="img_src")var imgSrcUrl:String,
         var type:String,
         var price:Double
-)
+):Parcelable{
+    val isRental
+    get() = type == "rent"
+}
